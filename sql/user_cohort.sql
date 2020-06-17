@@ -20,15 +20,16 @@
 --1. get range min/max by week for all users that is possible
 WITH range_values AS (
 
-    SELECT 
-        date_trunc('week', min(ss.date_initialized)) as minval,
-        date_trunc('week', max(ss.date_updated)) as maxval
-    FROM ss
+        SELECT 
+            date_trunc('week', min(ss.date_initialized)) as minval,
+            date_trunc('week', max(ss.date_updated)) as maxval
+        FROM ss
     ),
 
     --2. generate week range from the range values
     week_range AS (
-        SELECT generate_series(minval, maxval, '1 week'::interval)::date as week
+        SELECT
+            generate_series(minval, maxval, '1 week'::interval)::date as week
         FROM range_values
     ),
     
